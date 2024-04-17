@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MealManagement.Infraestructure.Entities
 {
     [Table("Orders")]
-    public class Order
+    public class OrderEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,7 +12,7 @@ namespace MealManagement.Infraestructure.Entities
 
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public User User { get; set; }
+        public UserEntity User { get; set; }
 
         public DateTime OrderDate { get; set; }
 
@@ -23,6 +23,6 @@ namespace MealManagement.Infraestructure.Entities
         [MaxLength(50)]
         public string Status { get; set; }
 
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public ICollection<OrderDetailEntity> OrderDetails { get; set; }
     }
 }

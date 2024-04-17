@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MealManagement.Infraestructure.Entities
 {
     [Table("Users")]
-    public class User
+    public class UserEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -27,6 +27,6 @@ namespace MealManagement.Infraestructure.Entities
         [Required]
         public UserRole Role { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<OrderEntity> Orders { get; set; }
     }
 }

@@ -15,10 +15,10 @@ namespace MealManagement.Infraestructure.DbContext
         {
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Meal> Meals { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<MealEntity> Meals { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<OrderDetailEntity> OrderDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

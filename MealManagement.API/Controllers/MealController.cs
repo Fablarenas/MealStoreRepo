@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MealManagement.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MealManagement.API.Controllers
 {
@@ -8,36 +8,17 @@ namespace MealManagement.API.Controllers
     [ApiController]
     public class MealController : ControllerBase
     {
-        // GET: api/<MealController>
+        private readonly IMealService _mealService;
+        public MealController(IMealService mealService)
+        {
+            _mealService = mealService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetAllMeals()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<MealController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<MealController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<MealController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<MealController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var meals = await _mealService.GetAllAvaliableMeals();
+            return Ok(meals);
         }
     }
 }

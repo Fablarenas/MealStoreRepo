@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MealManagement.Infraestructure.Entities
 {
     [Table("Meal")]
-    public class Meal
+    public class MealEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,7 +28,7 @@ namespace MealManagement.Infraestructure.Entities
         [Required]
         public int AvailableQuantity { get; set; }
 
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public ICollection<OrderDetailEntity> OrderDetails { get; set; }
     }
 
 }

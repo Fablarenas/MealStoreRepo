@@ -20,6 +20,9 @@ builder.Services.AddDbContext<MealStoreContext>(options =>
 builder.Services.AddScoped<IMealRepository, MealRepository>();
 builder.Services.AddScoped<IMealService, MealService>();
 builder.Services.AddScoped<IMapper, Mapper>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 var app = builder.Build();
 
 

@@ -10,6 +10,6 @@ namespace MealManagement.Application.Interfaces
     public interface IUserService
     {
         Task<bool> RegisterUserAsync(string username, string email, string password);
-        Task<LoginUserDto> AuthenticateUserAsync(string username, string password);
+        Task<UserDto> AuthenticateUserAsync(string username, string password);
     }
 }

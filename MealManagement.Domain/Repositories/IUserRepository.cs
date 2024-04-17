@@ -1,9 +1,4 @@
 ﻿using MealManagement.Domain.DomainEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MealManagement.Domain.Repositories
 {
@@ -12,6 +7,7 @@ namespace MealManagement.Domain.Repositories
             Task<User> GetUserByIdAsync(int userId);
             Task<User> GetUserByUsernameAsync(string username);
             Task AddUserAsync(User user);
-        
+            string HashPassword(string password);
+            bool VerifyPassword(string password, string hashedPassword);
     }
 }

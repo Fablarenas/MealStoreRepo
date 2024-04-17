@@ -15,7 +15,7 @@ namespace MealManagement.Infraestructure.Repositories
         public UserRepository(MealStoreContext context, IMapper mapper)
         {
             _context = context;
-            _mapper = mapper;   
+            _mapper = mapper;
         }
 
         public async Task<User> GetUserByIdAsync(int userId)
@@ -32,10 +32,27 @@ namespace MealManagement.Infraestructure.Repositories
 
         public async Task AddUserAsync(User user)
         {
-            var userEntity = _mapper.Map<UserEntity>(user);
-            _context.Users.Add(userEntity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var userEntity = _mapper.Map<UserEntity>(user);
+                _context.Users.Add(userEntity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+        public string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt(12));
+        }
+
+        public bool VerifyPassword(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
     }
-
 }

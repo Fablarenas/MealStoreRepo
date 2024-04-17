@@ -13,7 +13,7 @@ namespace MealManagement.Application.Mappers
     {
         public ApplicationMappingProfile()
         {
-            CreateMap<MealDto, Meal>().ReverseMap();
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace MealManagement.API.Controllers
         {
             _accountService = accountService;
         }
-
+        [HttpPost("register")]
         [Authorize(Roles = "Administrator,User")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto model)
         {

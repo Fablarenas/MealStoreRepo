@@ -146,3 +146,7 @@ DocProject/HTMLHelp3/Web/
 *.HxR
 *.HxW
 DocProject/HTMLHelp2/
+
+**/appsettings.json
+**/appsettings.Development.json
+

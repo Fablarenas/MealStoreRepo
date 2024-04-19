@@ -1,5 +1,6 @@
 ﻿using MealManagement.Application.Dtos;
 using MealManagement.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -17,6 +18,7 @@ namespace MealManagement.API.Controllers
         }
 
         [HttpPost("order")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> PlaceOrder([FromBody] OrderDto order)
         {
             var success = await _orderService.PlaceOrderAsync(order);

@@ -17,16 +17,36 @@ namespace MealManagement.Infraestructure.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task AddMealAsync(Meal meal)
+        public async Task<Meal> AddMealAsync(Meal meal)
         {
             var mealEntity = _mapper.Map<MealEntity>(meal);
+
             _context.Meals.Add(mealEntity);
-            await _context.SaveChangesAsync();
+
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return _mapper.Map<Meal>(mealEntity);
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public Task DeleteMealAsync(int mealId)
+
+        public async Task<bool> DeleteMealAsync(int mealId)
         {
-            throw new NotImplementedException();
+            var mealEntity = await _context.Meals.FindAsync(mealId);
+            if (mealEntity == null)
+            {
+                return false;
+            }
+
+            _context.Meals.Remove(mealEntity);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
 
         public async Task<List<Meal>> GetAllMealsAsync()
@@ -35,14 +55,28 @@ namespace MealManagement.Infraestructure.Repositories
             return _mapper.Map<List<Meal>>(meals);
         }
 
-        public Task<Meal> GetMealByIdAsync(int mealId)
+        public async Task<Meal> GetMealByIdAsync(int mealId)
         {
-            throw new NotImplementedException();
+            var meal = await _context.Meals.FirstOrDefaultAsync(u => u.MealId == mealId);
+            return _mapper.Map<Meal>(meal);
         }
 
-        public Task UpdateMealAsync(Meal meal)
+        public async Task<bool> UpdateMealAsync(Meal meal)
         {
-            throw new NotImplementedException();
+            var mealEntity = await _context.Meals.FindAsync(meal.MealId);
+            if (mealEntity == null)
+            {
+                return false;
+            }
+
+            mealEntity.Name = meal.Name;
+            mealEntity.Description = meal.Description;
+            mealEntity.Price = meal.Price;
+            mealEntity.AvailableQuantity = meal.AvailableQuantity;
+
+            _context.Meals.Update(mealEntity);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
     }
 }

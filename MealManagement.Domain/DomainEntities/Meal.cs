@@ -13,5 +13,25 @@ namespace MealManagement.Domain.DomainEntities
             public string Description { get; private set; }
             public decimal Price { get; private set; }
             public int AvailableQuantity { get; private set; }
-        }
+
+            public bool DecreaseStock(int quantity)
+            {
+                if (AvailableQuantity >= quantity)
+                {
+                    AvailableQuantity -= quantity;
+                    return true;
+                }
+                return false;
+            }
+
+            public bool IsAvaliable(int quantity)
+            {
+                if (AvailableQuantity >= quantity)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+    }
 }

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace MealManagement.Application.Interfaces
 {
-    public interface IUserService
+    public interface IOrderService
     {
-        Task<bool> RegisterUserAsync(RegisterUserDto user);
-        Task<UserLoggedDto> AuthenticateUserAsync(string username, string password);
+        public Task<OrderCreatedDto> PlaceOrderAsync(OrderDto order);
     }
 }

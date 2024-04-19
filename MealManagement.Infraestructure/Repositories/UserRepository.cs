@@ -4,6 +4,11 @@ using MealManagement.Domain.Repositories;
 using MealManagement.Infraestructure.DbContext;
 using MealManagement.Infraestructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace MealManagement.Infraestructure.Repositories
 {
@@ -11,11 +16,13 @@ namespace MealManagement.Infraestructure.Repositories
     {
         private readonly MealStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UserRepository(MealStoreContext context, IMapper mapper)
+        public UserRepository(MealStoreContext context, IMapper mapper, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<User> GetUserByIdAsync(int userId)
@@ -32,18 +39,9 @@ namespace MealManagement.Infraestructure.Repositories
 
         public async Task AddUserAsync(User user)
         {
-            try
-            {
                 var userEntity = _mapper.Map<UserEntity>(user);
                 _context.Users.Add(userEntity);
                 await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
         }
         public string HashPassword(string password)
         {
@@ -53,6 +51,25 @@ namespace MealManagement.Infraestructure.Repositories
         public bool VerifyPassword(string password, string hashedPassword)
         {
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+        }
+
+        public User CreateToken(User user){
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Convert.FromBase64String(_configuration["Jwt:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(5),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
+            return user;
         }
     }
 }

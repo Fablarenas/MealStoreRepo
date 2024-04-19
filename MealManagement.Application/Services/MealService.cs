@@ -17,14 +17,16 @@ namespace MealManagement.Application.Services
             _mapper = mapper;
         }
 
-        public Task AddMealAsync(MealDto mealDto)
+        public async Task<MealDto> AddMealAsync(MealDto mealDto)
         {
-            throw new NotImplementedException();
+            var meal = _mapper.Map<Meal>(mealDto);
+            var mealInserted = await _mealRepository.AddMealAsync(meal);
+            return _mapper.Map<MealDto>(mealInserted);
         }
 
-        public Task DeleteMealAsync(int mealId)
+        public async Task<bool> DeleteMealAsync(int mealId)
         {
-            throw new NotImplementedException();
+            return await _mealRepository.DeleteMealAsync(mealId);
         }
 
         public async Task<List<MealDto>> GetAllAvaliableMeals()
@@ -43,9 +45,10 @@ namespace MealManagement.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateMealAsync(MealDto mealDto)
+        public async Task<bool> UpdateMealAsync(MealUpdateDto mealDto)
         {
-            throw new NotImplementedException();
+            var meal = _mapper.Map<Meal>(mealDto);
+            return await _mealRepository.UpdateMealAsync(meal);
         }
     }
 }

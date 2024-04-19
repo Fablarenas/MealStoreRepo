@@ -4,11 +4,12 @@ namespace MealManagement.Domain.DomainEntities
 {
     public class User
     {
-        public User(string username, string email, string password)
+        public User(string username, string email, string password, UserRole role)
         {
             Username = username;
             Email = email;
             Password = password;
+            Role = role;
         }
         public int? UserId { get; set; }
 
@@ -19,6 +20,8 @@ namespace MealManagement.Domain.DomainEntities
         public string? Password { get; set; }
 
         public UserRole? Role { get; set; }
+
+        public string Token { get; set; }
 
         public bool VerifyPassword(string providedPasswordHash)
         {

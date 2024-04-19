@@ -30,5 +30,4 @@ namespace MealManagement.Infraestructure.Entities
 
         public ICollection<OrderDetailEntity> OrderDetails { get; set; }
     }
-
 }

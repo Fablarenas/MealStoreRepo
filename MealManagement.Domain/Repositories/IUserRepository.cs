@@ -9,5 +9,6 @@ namespace MealManagement.Domain.Repositories
             Task AddUserAsync(User user);
             string HashPassword(string password);
             bool VerifyPassword(string password, string hashedPassword);
+            public User CreateToken(User user);
     }
 }

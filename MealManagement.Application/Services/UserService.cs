@@ -4,12 +4,6 @@ using MealManagement.Application.Exceptions;
 using MealManagement.Application.Interfaces;
 using MealManagement.Domain.DomainEntities;
 using MealManagement.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MealManagement.Application.Services
 {
@@ -24,28 +18,31 @@ namespace MealManagement.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> RegisterUserAsync(string username, string email, string password)
+        public async Task<bool> RegisterUserAsync(RegisterUserDto userDto)
         {
-            var hashedPassword = _userRepository.HashPassword(password);
+            var hashedPassword = _userRepository.HashPassword(userDto.Password);
 
-            if (!User.ValidatePasswordLength(password))
+            if (!User.ValidatePasswordLength(userDto.Password))
             {
                 throw new RegisterUserException("Password must be at least 8 characters long.");
             }
 
-            var user = new User(username, email, hashedPassword);
+            var user = new User(userDto.UserName, userDto.Email, hashedPassword , (UserRole)userDto.Rol);
             await _userRepository.AddUserAsync(user);
             return true;
         }
 
-        public async Task<UserDto> AuthenticateUserAsync(string username, string password)
+        public async Task<UserLoggedDto> AuthenticateUserAsync(string username, string password)
         {
             var user = await _userRepository.GetUserByUsernameAsync(username);
-            if (user != null && _userRepository.VerifyPassword(user.Password, password))
+            if (user != null && _userRepository.VerifyPassword(password, user.Password))
             {
-                return _mapper.Map<UserDto>(user);
+                var userLogged = _userRepository.CreateToken(user);
+                return _mapper.Map<UserLoggedDto>(userLogged);
             }
+
             return null;
         }
+
     }
 }

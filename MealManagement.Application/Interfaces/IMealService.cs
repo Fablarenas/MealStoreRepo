@@ -11,8 +11,8 @@ namespace MealManagement.Application.Interfaces
     {
         Task<List<MealDto>> GetAllAvaliableMeals();
         Task<MealDto> GetMealByIdAsync(int mealId);
-        Task AddMealAsync(MealDto mealDto);
-        Task UpdateMealAsync(MealDto mealDto);
-        Task DeleteMealAsync(int mealId);
+        Task<MealDto> AddMealAsync(MealDto mealDto);
+        Task<bool> UpdateMealAsync(MealUpdateDto mealDto);
+        Task<bool> DeleteMealAsync(int mealId);
     }
 }

@@ -23,5 +23,8 @@ namespace MealManagement.Infraestructure.Entities
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal UnitPrice { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Subtotal { get; set; }
     }
 }

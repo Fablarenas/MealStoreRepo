@@ -2,6 +2,7 @@
 using MealManagement.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,7 +24,7 @@ namespace MealManagement.API.Controllers
         {
             try
             {
-                var result = await _accountService.RegisterUserAsync(model.UserName, model.Email, model.Password);
+                var result = await _accountService.RegisterUserAsync(model);
                 if (result)
                 {
                     return Ok(new { message = "Registration successful" });
